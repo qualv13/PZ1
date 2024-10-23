@@ -1,6 +1,11 @@
 package lab4;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +13,10 @@ public class Document {
     String title;
     Photo photo;
     List<Section> sections = new ArrayList<>();
+
+    Document(String title) {
+        this.title = title;
+    }
 
     Document setTitle(String title){
         this.title = title;
@@ -23,12 +32,15 @@ public class Document {
     Section addSection(String sectionTitle){
         // utwórz sekcję o danym tytule i dodaj do sections
         Section section = new Section();
-        section.title = sectionTitle;
+        section.setTitle(sectionTitle);
         this.sections.add(section);
-        return null;
+        return section;
     }
     Document addSection(Section s){
-        this.sections.add(s);
+        Section section = new Section();
+        section.setTitle(s.title);
+        section.paragraphs = s.paragraphs;
+        this.sections.add(section);
         return this;
     }
 
@@ -41,20 +53,62 @@ public class Document {
                 "    <meta charset=\"UTF-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n" +
-                "    <title>\"%s\"</title>\n" +
-//                "    <link rel=\"stylesheet\" href=\"./style.css\">\n" +
+                "    <title>\"" +
+                        this.title +
+                        "\"</title>\n" +
+                "    <link rel=\"stylesheet\" href=\"./cv.css\">\n" +
                 "    <link rel=\"icon\" href=\"./favicon.ico\" type=\"image/x-icon\">\n" +
                 "  </head>\n" +
                 "  <body>\n" +
-                "    <main>\n" +
-                "        <h1>Welcome to My Website</h1>  \n" +
-                "    </main>\n" +
-                "  </body>\n" +
-                "</html>\n", this.title);
+                "    <main>\n"
+                );
         // dodaj tytuł i obrazek
+        out.printf("<h1>" +
+                this.title +
+                "</h1>\n");
         // dla każdej sekcji wywołaj section.writeHTML(out)
+        photo.writeHTML(out);
         for(Section s: this.sections){
             s.writeHTML(out);
         }
+        out.printf(
+//                "        <h1>Welcome to My Website</h1>  \n" +
+                "    </main>\n" +
+                "  </body>\n" +
+                "</html>\n", this.title);
+    }
+
+    String toJson(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
+
+    public static void main(String[] args) {
+        Document cv = new Document("Jana Kowalski - CV");
+        cv.setPhoto("https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Calico_tabby_cat_-_Savannah.jpg/1200px-Calico_tabby_cat_-_Savannah.jpg");
+        cv.addSection("Wykształcenie")
+                .addParagraph("2000-2005 Przedszkole im. Królewny Snieżki w ...")
+                .addParagraph("2006-2012 SP7 im Ronalda Regana w ...")
+                .addParagraph(
+                        new ParagraphWithList().setContent("Kursy")
+                                .addListItem("Języka Angielskiego")
+                                .addListItem("Języka Hiszpańskiego")
+                                .addListItem("Szydełkowania")
+                );
+        cv.addSection("Umiejętności")
+                .addParagraph(
+                        new ParagraphWithList().setContent("Znane technologie")
+                                .addListItem("C")
+                                .addListItem("C++")
+                                .addListItem("Java")
+                );
+        try {
+            cv.writeHTML(new PrintStream("cv.html", StandardCharsets.UTF_8));
+            //cv.toJson(new PrintStream("cv.json", StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        TODO: make toJson work properly, deserialization and write tests
+        cv.toJson();
     }
 }

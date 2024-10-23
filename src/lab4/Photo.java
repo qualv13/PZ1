@@ -3,12 +3,15 @@ package lab4;
 import java.io.PrintStream;
 
 public class Photo {
+    String url = "";
+
     Photo(String url){
         this.url =url;
     }
-    String url;
 
     void writeHTML(PrintStream out){
-        out.printf("<img src=\"%s\" alt=\"Smiley face\" height=\"42\" width=\"42\"/>\n",url);
+        out.printf("<img src=" +
+                this.url +
+                " alt=\"Smiley face\" height=\"42\" width=\"42\"/>\n",url);
     }
 }

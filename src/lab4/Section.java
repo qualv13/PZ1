@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Section {
     String title;
-    List<Paragraph> paragraps = new ArrayList<>() ;
+    List<Paragraph> paragraphs = new ArrayList<>() ;
 
     Section setTitle(String title){
         this.title = title;
@@ -14,15 +14,22 @@ public class Section {
     }
     Section addParagraph(String paragraphText){
         Paragraph paragraph = new Paragraph();
-        paragraph.content = paragraphText;
-        paragraps.add(paragraph);
+        paragraph.setContent(paragraphText);
+        paragraphs.add(paragraph);
         return this;
     }
     Section addParagraph(Paragraph p){
-        paragraps.add(p);
+        paragraphs.add(p);
         return this;
     }
     void writeHTML(PrintStream out){
-        //out.printf()
+        out.printf("<section>");
+        out.printf("<h2>" +
+                this.title +
+                "</h2>");
+        for (Paragraph p : paragraphs){
+            p.writeHTML(out);
+        }
+        out.printf("<section>");
     }
 }
