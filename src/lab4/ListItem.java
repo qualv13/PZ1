@@ -6,6 +6,6 @@ public class ListItem {
     String content = "";
 
     void writeHTML(PrintStream out) {
-        out.println("<li>" + content + "</li>");
+        out.println("<li>" + content + "</li>\n");
     }
 }

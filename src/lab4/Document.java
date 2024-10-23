@@ -2,6 +2,7 @@ package lab4;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -9,9 +10,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+// danilo.pianini.gson.extras
 public class Document {
     String title;
-    Photo photo;
+    Photo photo = null;
     List<Section> sections = new ArrayList<>();
 
     Document(String title) {
@@ -67,7 +69,9 @@ public class Document {
                 this.title +
                 "</h1>\n");
         // dla każdej sekcji wywołaj section.writeHTML(out)
-        photo.writeHTML(out);
+        if (photo != null) {
+            photo.writeHTML(out);
+        }
         for(Section s: this.sections){
             s.writeHTML(out);
         }
@@ -78,9 +82,19 @@ public class Document {
                 "</html>\n", this.title);
     }
 
-    String toJson(){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    String toJson() {
+        RuntimeTypeAdapterFactory<Paragraph> adapter =
+                RuntimeTypeAdapterFactory
+                        .of(Paragraph.class)
+                        .registerSubtype(Paragraph.class)
+                        .registerSubtype(ParagraphWithList.class);
+        Gson gson = new GsonBuilder().registerTypeAdapterFactory(adapter).setPrettyPrinting().create();
         return gson.toJson(this);
+    }
+
+    static Document fromJson(String jsonString){
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(jsonString, Document.class);
     }
 
     public static void main(String[] args) {
@@ -108,7 +122,19 @@ public class Document {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        TODO: make toJson work properly, deserialization and write tests
-        cv.toJson();
+
+        //cv.toJson();
+
+        System.out.println("\n---------------");
+        String json = cv.toJson();
+        System.out.println(json);
+        System.out.println("\n---------------");
+        Document doc = Document.fromJson(json);
+        cv.writeHTML(System.out);
+        System.out.println("\n---------------");;
+        json = cv.toJson();
+        System.out.println(json);
+        System.out.println("\n---------------");
+
     }
 }
