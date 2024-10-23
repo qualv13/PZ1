@@ -94,10 +94,17 @@ public class Document {
         return gson.toJson(this);
     }
 
-    static Document fromJson(String jsonString){
-        Gson gson = new GsonBuilder().create();
+    static Document fromJson(String jsonString) {
+        RuntimeTypeAdapterFactory<Paragraph> adapter =
+                RuntimeTypeAdapterFactory
+                        .of(Paragraph.class)
+                        .registerSubtype(Paragraph.class)
+                        .registerSubtype(ParagraphWithList.class);
+
+        Gson gson = new GsonBuilder().registerTypeAdapterFactory(adapter).create();
         return gson.fromJson(jsonString, Document.class);
     }
+
 
     public static void main(String[] args) throws IOException {
         Document cv = new Document("Jana Kowalski - CV");

@@ -99,11 +99,11 @@ public class DocumentTest {
 
         assertEquals(json, json2, "JSON should be the same");
 
-//        ByteArrayOutputStream outputStreamCv = new ByteArrayOutputStream();
-//        cv.writeHTML(new PrintStream(outputStreamCv));
-//        ByteArrayOutputStream outputStreamDoc = new ByteArrayOutputStream();
-//        doc.writeHTML(new PrintStream(outputStreamDoc));
-//        assertEquals(outputStreamCv.toString(), outputStreamDoc.toString(), "HTML should be the same");
+        ByteArrayOutputStream outputStreamCv = new ByteArrayOutputStream();
+        cv.writeHTML(new PrintStream(outputStreamCv));
+        ByteArrayOutputStream outputStreamDoc = new ByteArrayOutputStream();
+        doc.writeHTML(new PrintStream(outputStreamDoc));
+        assertEquals(outputStreamCv.toString(), outputStreamDoc.toString(), "HTML should be the same");
     }
 
     @org.junit.jupiter.api.Test
