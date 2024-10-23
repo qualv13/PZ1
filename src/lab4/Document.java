@@ -7,6 +7,8 @@ import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +99,7 @@ public class Document {
         return gson.fromJson(jsonString, Document.class);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Document cv = new Document("Jana Kowalski - CV");
         cv.setPhoto("https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Calico_tabby_cat_-_Savannah.jpg/1200px-Calico_tabby_cat_-_Savannah.jpg");
         cv.addSection("Wykształcenie")
@@ -127,6 +129,10 @@ public class Document {
 
         System.out.println("\n---------------");
         String json = cv.toJson();
+
+        Files.write(Paths.get("output.json"), json.getBytes());
+
+
         System.out.println(json);
         System.out.println("\n---------------");
         Document doc = Document.fromJson(json);

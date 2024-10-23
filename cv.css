@@ -25,7 +25,9 @@ section {
     margin-bottom: 20px;
 }
 
-h1 {
+
+
+h1 h2 {
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 20px;
@@ -70,17 +72,6 @@ section ul li {
     font-style: italic;
 }
 
-
-/*img {*/
-/*    display: block;*/
-/*    margin: 0 auto;*/
-/*    width: 150px;*/
-/*    height: 150px;*/
-/*    border-radius: 50%;*/
-/*    object-fit: cover;*/
-/*    margin-bottom: 20px;*/
-/*}*/
-/* Photo Styles */
 img {
     display: block;
     margin: 0 auto;

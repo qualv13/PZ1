@@ -73,7 +73,6 @@ public class DocumentTest {
 
     }
 
-    // TODO: test JSON żeby poprawnie porównywał przy serializacja -> deserializacja -> serializacja i porównianie ich wszystkich
     @org.junit.jupiter.api.Test
     void testJSON(){
         Document cv = new Document("Jana Kowalski - CV");
@@ -95,16 +94,33 @@ public class DocumentTest {
                                 .addListItem("Java")
                 );
         String json = cv.toJson();
-
         Document doc = Document.fromJson(json);
-
         String json2 = cv.toJson();
 
+        assertEquals(json, json2, "JSON should be the same");
 
-        assertEquals(json.toCharArray(), json2.toCharArray(), "JSON should be the same");
-        //assertArrayEquals(cv.writeHTML(), doc.writeHTML());
+//        ByteArrayOutputStream outputStreamCv = new ByteArrayOutputStream();
+//        cv.writeHTML(new PrintStream(outputStreamCv));
+//        ByteArrayOutputStream outputStreamDoc = new ByteArrayOutputStream();
+//        doc.writeHTML(new PrintStream(outputStreamDoc));
+//        assertEquals(outputStreamCv.toString(), outputStreamDoc.toString(), "HTML should be the same");
+    }
 
+    @org.junit.jupiter.api.Test
+    void testEmptyDocument() {
+        Document emptyCv = new Document("");
+        String json = emptyCv.toJson();
+        Document doc = Document.fromJson(json);
+        String json2 = emptyCv.toJson();
 
+        assertEquals(json, json2, "Empty document JSON should be the same");
+
+        ByteArrayOutputStream outputStreamCv = new ByteArrayOutputStream();
+        emptyCv.writeHTML(new PrintStream(outputStreamCv));
+        ByteArrayOutputStream outputStreamDoc = new ByteArrayOutputStream();
+        doc.writeHTML(new PrintStream(outputStreamDoc));
+
+        assertEquals(outputStreamCv.toString(), outputStreamDoc.toString(), "HTML output for empty document should be the same");
     }
 
 }

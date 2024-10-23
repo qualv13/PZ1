@@ -24,12 +24,12 @@ public class Section {
     }
     void writeHTML(PrintStream out){
         out.printf("<section>");
+        out.printf("<h2>" +
+                this.title +
+                "</h2>\n");
         for (Paragraph p : paragraphs){
             p.writeHTML(out);
         }
-        out.printf("<content>" +
-                this.title +
-                "</content>\n");
         out.printf("</section>\n");
     }
 }
