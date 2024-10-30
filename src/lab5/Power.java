@@ -1,5 +1,9 @@
 package lab5;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 public class Power extends Node {
     double p;
     Node arg;
@@ -31,8 +35,16 @@ public class Power extends Node {
         b.append(argString);
         if(useBracket)b.append(")");
         b.append("^");
-        b.append(p);
+        DecimalFormat format = new DecimalFormat("0.#####",new DecimalFormatSymbols(Locale.US));
+        b.append(format.format(p));
+
         return b.toString();
     }
 
+    @Override
+    Node diff(Variable var) {
+        Prod r =  new Prod(sign*p,new Power(arg,p-1));
+        r.mul(arg.diff(var));
+        return r;
+    }
 }

@@ -31,7 +31,7 @@ abstract public class Node {
      */
     int getArgumentsCount(){return 0;}
 
-    // TODO do domu
-//    abstract Node diff(Variable var);
-//    abstract boolean isZero();
+
+    abstract Node diff(Variable var);
+    boolean isZero(){return false;}; //abstract
 }

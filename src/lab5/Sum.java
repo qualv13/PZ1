@@ -34,6 +34,10 @@ public class Sum extends Node {
     @Override
     double evaluate() {
         double result =0;
+        for(int i = 0; i < args.size(); i++){
+            result += args.get(i).evaluate();
+            //args.removeFirst();
+        }
         //oblicz sumę wartości zwróconych przez wywołanie evaluate skłądników sumy
         return sign*result;
     }
@@ -42,13 +46,31 @@ public class Sum extends Node {
 
     public String toString(){
         StringBuilder b =  new StringBuilder();
-        if(sign<0)b.append("-(");
 
+        for (int i = 0; i < args.size(); i++) {
+
+        }
+
+        //if(sign<0)b.append("-(");
+        for(int i = 0; i < args.size(); i++){
+            b.append(args.get(i).toString());
+            //args.removeFirst();
+            if(i<args.size()-1){
+                b.append(" + ");
+            };
+        }
         //zaimplementuj
 
-        if(sign<0)b.append(")");
+        //if(sign<0)b.append(")");
         return b.toString();
     }
 
-
+    @Override
+    Node diff(Variable var) {
+        Sum r = new Sum();
+        for(Node n:args){
+            r.add(n.diff(var));
+        }
+        return r;
+    }
 }
