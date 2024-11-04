@@ -40,8 +40,22 @@ public class Prod extends Node {
         return this;
     }
 
+    void simplify(){
+        double sum = 0;
+        Constant check = new Constant(1);
+        for(Node n : args){
+            if(n.getClass() == check.getClass()){
+                sum += ((Constant) n).value;
+                args.remove(n);
+            }
+        }
+        Node sumNode = new Constant(sum);
+        args.add(sumNode);
+    }
+
     @Override
     double evaluate() {
+        //simplify();
         double result =1;
         for (Node arg : args) {
             result *= arg.evaluate();
@@ -52,6 +66,7 @@ public class Prod extends Node {
     int getArgumentsCount(){return args.size();}
 
     public String toString(){
+        //simplify();
         StringBuilder b =  new StringBuilder();
         for(int i = 0; i < args.size(); i++){
             if(args.get(i).sign<0)b.append("(");
