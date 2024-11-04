@@ -28,8 +28,6 @@ public class Prod extends Node {
         //wywołaj konstruktor dwuargumentowy
     }
 
-
-
     Prod mul(Node n){
         args.add(n);
         return this;
@@ -42,7 +40,6 @@ public class Prod extends Node {
         return this;
     }
 
-
     @Override
     double evaluate() {
         double result =1;
@@ -54,20 +51,14 @@ public class Prod extends Node {
     }
     int getArgumentsCount(){return args.size();}
 
-
     public String toString(){
         StringBuilder b =  new StringBuilder();
-        //if(sign<0)b.append("(-");
-        // ...
-        //for (Node arg : args) {
         for(int i = 0; i < args.size(); i++){
             if(args.get(i).sign<0)b.append("(");
             b.append(args.get(i).toString());
             if(args.get(i).sign<0)b.append(")");
             if(i<args.size()-1) b.append("*");
         }
-
-        //zaimplementuj
         return b.toString();
     }
 
@@ -75,14 +66,25 @@ public class Prod extends Node {
     Node diff(Variable var) {
         Sum r = new Sum();
         for(int i=0;i<args.size();i++){
-            Prod m= new Prod();
+            Prod m = new Prod();
             for(int j=0;j<args.size();j++){
                 Node f = args.get(j);
-                if(j==i)m.mul(f.diff(var));
+                if(j==i) m.mul(f.diff(var));
                 else m.mul(f);
             }
-            r.add(m);
+            if(!m.isZero()){
+                r.add(m);
+            }
         }
         return r;
+    }
+
+    @Override
+    boolean isZero(){
+        if(args.isEmpty()) return true;
+        for (Node arg : args) {
+            if(arg.isZero()) return true;
+        }
+        return false;
     }
 }

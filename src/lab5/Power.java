@@ -18,9 +18,7 @@ public class Power extends Node {
         return Math.pow(argVal,p);
     }
 
-
     int getArgumentsCount(){return 1;}
-
 
     @Override
     public String toString() {
@@ -47,4 +45,5 @@ public class Power extends Node {
         r.mul(arg.diff(var));
         return r;
     }
+
 }

@@ -11,7 +11,6 @@ public class Constant extends Node {
         this.value = value<0?-value:value;
     }
 
-
     @Override
     double evaluate() {
         return sign*value;
@@ -20,14 +19,13 @@ public class Constant extends Node {
     @Override
     public String toString() {
         String sgn=sign<0?"-":"";
+        if(value==0){
+            return "";
+        }
 //        return sgn+Double.toString(value);
         DecimalFormat format = new DecimalFormat("0.#####",new DecimalFormatSymbols(Locale.US));
         return sgn+format.format(value);
     }
-
-//    Node diff(Variable var){
-//        return new Constant(-var.value);
-//    }
 
     @Override
     Node diff(Variable var) {

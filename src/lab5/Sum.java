@@ -14,7 +14,6 @@ public class Sum extends Node {
         args.add(n2);
     }
 
-
     Sum add(Node n){
         args.add(n);
         return this;
@@ -36,9 +35,7 @@ public class Sum extends Node {
         double result =0;
         for(int i = 0; i < args.size(); i++){
             result += args.get(i).evaluate();
-            //args.removeFirst();
         }
-        //oblicz sumę wartości zwróconych przez wywołanie evaluate skłądników sumy
         return sign*result;
     }
 
@@ -46,31 +43,33 @@ public class Sum extends Node {
 
     public String toString(){
         StringBuilder b =  new StringBuilder();
-
-        for (int i = 0; i < args.size(); i++) {
-
-        }
-
-        //if(sign<0)b.append("-(");
         for(int i = 0; i < args.size(); i++){
-            b.append(args.get(i).toString());
-            //args.removeFirst();
-            if(i<args.size()-1){
-                b.append(" + ");
-            };
-        }
-        //zaimplementuj
+            if(!args.get(i).isZero()){
+                b.append(args.get(i).toString());
+            }
 
-        //if(sign<0)b.append(")");
+            if(i+1<args.size() && !args.get(i+1).isZero()){
+                b.append(" + ");
+            }
+        }
         return b.toString();
     }
 
     @Override
     Node diff(Variable var) {
         Sum r = new Sum();
-        for(Node n:args){
+        for(Node n : args){
             r.add(n.diff(var));
         }
+        if(r.isZero()){
+            return this;
+        }
         return r;
+    }
+
+    @Override
+    boolean isZero(){
+        if(args.isEmpty()){ return true; }
+        return args.getFirst().isZero();
     }
 }

@@ -23,7 +23,7 @@ public class MainLab5 {
 
         List<Double> x_cord = new ArrayList<Double>();
         List<Double> y_cord = new ArrayList<Double>();
-        double xv = 0; double yv = 0;
+        double xv; double yv;
         while (x_cord.size() < 100){
             xv = 100*(Math.random()-.5);
             yv = 100*(Math.random()-.5);
@@ -40,7 +40,6 @@ public class MainLab5 {
         //System.out.print(String.format("Punkt (%f,%f) leży %s koła %s",xv,yv,(fv<0?"wewnątrz":"na zewnątrz"),circle.toString()));
     }
 
-
     public static void buildAndPrint(){
         Variable x = new Variable("x");
         Node exp = new Sum()
@@ -51,6 +50,7 @@ public class MainLab5 {
         System.out.println(exp.toString());
         // 2.1*x^3 + x^2 + (-2)*x + 7
     }
+
     static void buildAndEvaluate() {
         Variable x = new Variable("x");
         Node exp = new Sum()

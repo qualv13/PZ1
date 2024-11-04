@@ -10,12 +10,10 @@ public class Variable extends Node {
         value = d;
     }
 
-
     @Override
     double evaluate() {
         return sign*value;
     }
-
 
     @Override
     public String toString() {
@@ -31,6 +29,7 @@ public class Variable extends Node {
 
     @Override
     boolean isZero(){
+        if(value == null)return false;
         return value==0;
     }
 }

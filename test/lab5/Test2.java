@@ -21,7 +21,8 @@ public class Test2 {
         Node d = exp.diff(x);
         System.out.print("d(exp)/dx=");
         System.out.println(d.toString());
-        assertEquals("0*x^3 + 2*3*x^2*1 + 2*x^1*1 + 0*x + (-2)*1 + 0", d.toString(), "Aren't same");
+        //assertEquals("0*x^3 + 2*3*x^2*1 + 2*x^1*1 + 0*x + (-2)*1 + 0", d.toString(), "Aren't same");
+        assertEquals("2*3*x^2*1 + 2*x^1*1 + (-2)*1", d.toString(), "Aren't same");
         // exp=2*x^3 + x^2 + (-2)*x + 7
         // d(exp)/dx=0*x^3 + 2*3*x^2*1 + 2*x^1*1 + 0*x + (-2)*1 + 0
     }
@@ -46,10 +47,13 @@ public class Test2 {
         Node dy = circle.diff(y);
         System.out.println(dy.toString());
         // f(x,y)=x^2 + y^2 + 8*x + 4*y + 16
-        assertArrayEquals("x^2 + y^2 + 8*x + 4*y + 16".toCharArray(), circle.toString().toCharArray(), "Circle f isn't good");
+        assertEquals("x^2 + y^2 + 8*x + 4*y + 16", circle.toString(), "Circle f isn't good");
         // d f(x,y)/dx=2*x^1*1 + 2*y^1*0 + 0*x + 8*1 + 0*y + 4*0 + 0
-        assertArrayEquals("2*x^1*1 + 2*y^1*0 + 0*x + 8*1 + 0*y + 4*0 + 0".toCharArray(), dx.toString().toCharArray(), "df dx isn't good");
+        //assertArrayEquals("2*x^1*1 + 2*y^1*0 + 0*x + 8*1 + 0*y + 4*0 + 0".toCharArray(), dx.toString().toCharArray(), "df dx isn't good");
+        assertEquals("2*x^1*1 + 8*1", dx.toString(), "df dx isn't good");
         // d f(x,y)/dy=2*x^1*0 + 2*y^1*1 + 0*x + 8*0 + 0*y + 4*1 + 0
-        assertArrayEquals("2*x^1*0 + 2*y^1*1 + 0*x + 8*0 + 0*y + 4*1 + 0".toCharArray(), dy.toString().toCharArray(), "df dy isn't good");
+        //assertArrayEquals("2*x^1*0 + 2*y^1*1 + 0*x + 8*0 + 0*y + 4*1 + 0".toCharArray(), dy.toString().toCharArray(), "df dy isn't good");
+        assertEquals("2*y^1*1 + 4*1", dy.toString(), "df dy isn't good");
+
     }
 }
