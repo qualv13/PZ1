@@ -77,6 +77,7 @@ public class CSVReader{
         if (currentLine == null) {
             return false;
         }
+        // TODO : https://www.baeldung.com/java-split-string-commas
         current = currentLine.split(delimiter);
         return true;
     }
