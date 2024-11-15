@@ -1,10 +1,7 @@
 package lab6;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CSVReader{
     private BufferedReader reader;
@@ -13,7 +10,7 @@ public class CSVReader{
 
     private List<String> columnLabels = new ArrayList<>();
     private Map<String, Integer> columnLabelsToInt = new HashMap<>();
-    private String[] current;
+    private ArrayList<String> current = new ArrayList<String>();//String[] current;
 
     /**
      * Constructor with full parameters.
@@ -73,12 +70,59 @@ public class CSVReader{
      * @return true if there’s a next line, false if end of file.
      */
     public boolean next() throws IOException {
+        current.clear();
         String currentLine = reader.readLine();
+        //System.out.println(currentLine);
+        String tmpFullString = "";
         if (currentLine == null) {
             return false;
         }
         // TODO : https://www.baeldung.com/java-split-string-commas
-        current = currentLine.split(delimiter);
+        boolean isInQuotes = false;
+        int count = 0;
+
+        for (int i = 0; i < currentLine.length(); i++) {
+            if (currentLine.charAt(i) == '\"') {
+                isInQuotes = !isInQuotes;
+                //System.out.println(i);
+                continue;
+            }
+            if (!isInQuotes && currentLine.charAt(i) == delimiter.charAt(0)) {
+                current.add(tmpFullString);
+                //System.out.println(i);
+                //System.out.println(tmpFullString);
+                tmpFullString = "";
+            }else{
+                //System.out.println(i);
+                tmpFullString += currentLine.charAt(i);
+            }
+            if(i + 1 == currentLine.length()){
+                current.add(tmpFullString);
+                //System.out.println(i);
+                //System.out.println(tmpFullString);
+            }
+
+            //System.out.println(tmpFullString);
+
+
+//            String tmp = "";
+//            for (int j = startPos; j < currentLine.length(); j++) {
+//                if (currentLine.charAt(j) == '\"') {isInQuotes = !isInQuotes;}
+//                else if (currentLine.charAt(j) == delimiter.charAt(0) && !isInQuotes) {
+//                    startPos = j+1;
+//                    break;
+//                }
+//                tmp = tmp + currentLine.charAt(j);
+//
+//            }
+//            tmpFullString += tmp;
+            // tmpFullString.append('|'); //delimiter.charAt(0)
+        }
+
+//        String del = "|";
+//        current = tmpFullString.toString().split(delimiter); //delimiter
+        //System.out.println(Arrays.toString(current));
+        //current = currentLine.split(delimiter);
         return true;
     }
 
@@ -89,12 +133,12 @@ public class CSVReader{
 
     // Get the number of columns in the current row
     public int getRecordLength() {
-        return current.length;
+        return current.size();
     }
 
     // Check if a column index is missing
     public boolean isMissing(int columnIndex) {
-        return columnIndex < 0 || columnIndex >= current.length || current[columnIndex].isEmpty();
+        return columnIndex < 0 || columnIndex >= current.size() || current.get(columnIndex).isEmpty();
     }
 
     // Check if a column by name is missing
@@ -105,12 +149,12 @@ public class CSVReader{
 
     // Retrieve field by index, or a default if missing
     public String get(int columnIndex) {
-        return isMissing(columnIndex) ? "" : current[columnIndex];
+        return isMissing(columnIndex) ? "" : current.get(columnIndex);
     }
 
     // Retrieve field by column name, or a default if missing
     public String get(String columnLabel) {
-        return isMissing(columnLabel) ? "" : current[columnLabelsToInt.get(columnLabel)];
+        return isMissing(columnLabel) ? "" : current.get(columnLabelsToInt.get(columnLabel));
     }
 
     // Parse integer by index with error handling
@@ -118,7 +162,7 @@ public class CSVReader{
         try {
             return isMissing(columnIndex) ? 0 : Integer.parseInt(get(columnIndex));
         } catch (NumberFormatException e) {
-            System.err.println("Invalid integer at column " + columnIndex + ": " + get(columnIndex));
+            //System.err.println("Invalid integer at column " + columnIndex + ": " + get(columnIndex));
             return 0;
         }
     }
@@ -128,7 +172,7 @@ public class CSVReader{
         try {
             return isMissing(columnLabel) ? 0 : Integer.parseInt(get(columnLabel));
         } catch (NumberFormatException e) {
-            System.err.println("Invalid integer for column " + columnLabel + ": " + get(columnLabel));
+            //System.err.println("Invalid integer for column " + columnLabel + ": " + get(columnLabel));
             return 0;
         }
     }
@@ -138,7 +182,7 @@ public class CSVReader{
         try {
             return Long.parseLong(get(columnIndex));
         } catch (NumberFormatException e) {
-            System.err.println("Invalid long at column " + columnIndex + ": " + get(columnIndex));
+            //System.err.println("Invalid long at column " + columnIndex + ": " + get(columnIndex));
             return 0L;
         }
     }
@@ -148,7 +192,7 @@ public class CSVReader{
         try {
             return Long.parseLong(get(columnLabel));
         } catch (NumberFormatException e) {
-            System.err.println("Invalid long for column " + columnLabel + ": " + get(columnLabel));
+            //System.err.println("Invalid long for column " + columnLabel + ": " + get(columnLabel));
             return 0L;
         }
     }
@@ -158,7 +202,7 @@ public class CSVReader{
         try {
             return Double.parseDouble(get(columnIndex));
         } catch (NumberFormatException e) {
-            System.err.println("Invalid double at column " + columnIndex + ": " + get(columnIndex));
+            //System.err.println("Invalid double at column " + columnIndex + ": " + get(columnIndex));
             return 0.0;
         }
     }
@@ -168,7 +212,7 @@ public class CSVReader{
         try {
             return Double.parseDouble(get(columnLabel));
         } catch (NumberFormatException e) {
-            System.err.println("Invalid double for column " + columnLabel + ": " + get(columnLabel));
+            //System.err.println("Invalid double for column " + columnLabel + ": " + get(columnLabel));
             return 0.0;
         }
     }

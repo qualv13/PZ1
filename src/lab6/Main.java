@@ -7,19 +7,19 @@ import java.util.Locale;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-//        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//elec.csv",",",true);
-//        while (reader.next()){
-//            int date = reader.getInt("date");
-//            int day = reader.getInt("day");
-//            double period = reader.getDouble("period");
-//            double nswprice  = reader.getDouble("nswprice");
-//            double nswdemand = reader.getDouble("nswdemand");
-//            double vicprice = reader.getDouble("vicprice");
-//            double vicdemand = reader.getDouble("vicdemand");
-//            double transfer = reader.getDouble("transfer");
-//            String clas = reader.get("class");
-//            System.out.printf(Locale.US, "%d %d %f %f %f %f %f %f %s \n", date, day, period, nswprice, nswdemand, vicprice, vicdemand, transfer, clas);
-//        }
+        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//elec.csv",",",true);
+        while (reader.next()){
+            int date = reader.getInt("date");
+            int day = reader.getInt("day");
+            double period = reader.getDouble("period");
+            double nswprice  = reader.getDouble("nswprice");
+            double nswdemand = reader.getDouble("nswdemand");
+            double vicprice = reader.getDouble("vicprice");
+            double vicdemand = reader.getDouble("vicdemand");
+            double transfer = reader.getDouble("transfer");
+            String clas = reader.get("class");
+            System.out.printf(Locale.US, "%d %d %f %f %f %f %f %f %s \n", date, day, period, nswprice, nswdemand, vicprice, vicdemand, transfer, clas);
+        }
 
 //        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//missing-values.csv",";",true); // C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab6//with-header.csv
 //        while(reader.next()) {
@@ -60,21 +60,24 @@ public class Main {
 //        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//with-header.csv",";",true); // C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab6//with-header.csv
 //        while(reader.next()) {
 //            int id = reader.getInt("id"); // with-header.csv
-//            String name = reader.get("imi�");
-//            //String nazwisko = reader.get("nazwisko");
+//            String name = reader.get("imie");
+//            String nazwisko = reader.get("nazwisko");
 //            String ulica = reader.get("ulica");
 //            int nrDomu = reader.getInt("nrdomu");
 //            int nrMieszkania = reader.getInt("nrmieszkania");
-//            System.out.printf(Locale.US, "%d %s   %s %d %d \n", id, name, /*nazwisko,*/ ulica, nrDomu, nrMieszkania);
+//            System.out.printf(Locale.US, "%d %s %s %s %d %d \n", id, name, nazwisko, ulica, nrDomu, nrMieszkania);
 //        }
 
-        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//titanic-part.csv",",",true);
-        while(reader.next()) {
-            int id = reader.getInt("PassengerId"); // titanic-part.csv
-            String name = reader.get("Name");
-            double fare = reader.getDouble("Fare");
-            System.out.printf(Locale.US,"%d %s %f \n",id, name, fare);
-        }
+//        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//titanic-part.csv",",",true);
+//        while(reader.next()) {
+//            int id = reader.getInt("PassengerId"); // titanic-part.csv
+//            String name = reader.get("Name");
+//            int age = reader.getInt("Age");
+//            String ticket = reader.get("Ticket");
+//            double fare = reader.getDouble("Fare");
+//            String embarked = reader.get("Embarked");
+//            System.out.printf(Locale.US,"%d %s %d %s %f %s \n",id, name, age, ticket, fare, embarked);
+//        }
         //test2();
     }
 
