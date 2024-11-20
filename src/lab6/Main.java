@@ -6,20 +6,29 @@ import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
-        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//elec.csv",",",true);
-        while (reader.next()){
-            int date = reader.getInt("date");
-            int day = reader.getInt("day");
-            double period = reader.getDouble("period");
-            double nswprice  = reader.getDouble("nswprice");
-            double nswdemand = reader.getDouble("nswdemand");
-            double vicprice = reader.getDouble("vicprice");
-            double vicdemand = reader.getDouble("vicdemand");
-            double transfer = reader.getDouble("transfer");
-            String clas = reader.get("class");
-            System.out.printf(Locale.US, "%d %d %f %f %f %f %f %f %s \n", date, day, period, nswprice, nswdemand, vicprice, vicdemand, transfer, clas);
-        }
+//        CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//admin-units.csv");
+//        while (reader.next()){
+//            int id = reader.getInt("id");
+//            int parentid = reader.getInt("parent");
+//            String name = reader.get("name");
+//            int admin_level = reader.getInt("admin_level");
+//            double population = reader.getDouble("population");
+//            System.out.printf(Locale.US, "%d %d %s %d %f \n", id, parentid, name, admin_level, population);
+//        }
+//
+//        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//elec.csv",",",true);
+//        while (reader.next()){
+//            int date = reader.getInt("date");
+//            int day = reader.getInt("day");
+//            double period = reader.getDouble("period");
+//            double nswprice  = reader.getDouble("nswprice");
+//            double nswdemand = reader.getDouble("nswdemand");
+//            double vicprice = reader.getDouble("vicprice");
+//            double vicdemand = reader.getDouble("vicdemand");
+//            double transfer = reader.getDouble("transfer");
+//            String clas = reader.get("class");
+//            System.out.printf(Locale.US, "%d %d %f %f %f %f %f %f %s \n", date, day, period, nswprice, nswdemand, vicprice, vicdemand, transfer, clas);
+//        }
 
 //        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//missing-values.csv",";",true); // C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab6//with-header.csv
 //        while(reader.next()) {
