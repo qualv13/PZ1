@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+// 8 - miasta (1200); 11 - 192; od 8 poziomu administracyjnego są braki dzieci
 public class AdminUnitList {
     List<AdminUnit> units = new ArrayList<>();
     Map<Long,List<Long>> parentid2childid = new HashMap<>();
@@ -18,20 +18,27 @@ public class AdminUnitList {
      * @param filename nazwa pliku
      */
     void read(String filename) throws IOException {
-        Map<Long, AdminUnit> idMap = new HashMap<>();
-        Map<AdminUnit, Long> parentIdMap = new HashMap<>();
+        Map<Long, AdminUnit> idToUnitMap = new HashMap<>();
+        Map<AdminUnit, Long> unitToIdMap = new HashMap<>();
+        Map<Long, Long> idToParentId = new HashMap<>();
         CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//" + filename);
         while(reader.next()) {
             AdminUnit unit = new AdminUnit();
+            long id, parentId;
+            try{id = reader.getInt("id");}catch (RuntimeException e){id = -1;}
 
-            long id = reader.getInt("id");
-            if(!idMap.containsKey(id)) {
-                idMap.put(id, unit);
+            idToUnitMap.put(id, unit);
+            unitToIdMap.put(unit, id);// ma być
+
+            try{parentId = reader.getInt("parent");}catch (RuntimeException e){parentId = -1;}
+            idToParentId.put(id, parentId);
+
+            if(parentId == -1) {
+                unit.parent = null;
+            }else{
+                idToParentId.put(id, parentId);
             }
-            long parent = reader.getInt("parent");
-            if(!parentIdMap.containsKey(unit)) {
-                parentIdMap.put(unit, parent);
-            }
+            // dodajesz children jako to do klucza parenta tego, bo skoro on ma parenta, to ten wczytywany jest dzieckiem
             // TODO: poniższy kod zmienić tak, aby wykonał się po wczytaniu wszystkich elementów pliku
 //            if(!parentid2childid.containsKey(parent)) {
 //                List<Long> childids = new ArrayList<>();
@@ -40,11 +47,11 @@ public class AdminUnitList {
 //                parentid2childid.get(parent).add(id);
 //            }
 
-            unit.name = reader.get("name");
-            unit.adminLevel = reader.getInt("admin_level");
-            unit.population = reader.getDouble("population");
-            unit.area = reader.getDouble("area");
-            unit.density = reader.getDouble("density");
+            try{unit.name = reader.get("name");}catch (RuntimeException e){unit.name = null;}
+            try{unit.adminLevel = reader.getInt("admin_level");}catch (RuntimeException e){unit.adminLevel = -1;}
+            try{unit.population = reader.getDouble("population");}catch (RuntimeException e){unit.population = -1;}
+            try{unit.area = reader.getDouble("area");}catch (RuntimeException e){unit.area = -1;}
+            try{unit.density = reader.getDouble("density");}catch (RuntimeException e){unit.density = -1;}
             double x1 = reader.getDouble("x1");
             double y1 = reader.getDouble("y1");
             double x2 = reader.getDouble("x2");
@@ -78,9 +85,26 @@ public class AdminUnitList {
 //        double x5 = reader.getDouble("x5");
 //        double y5 = reader.getDouble("y5");
         }
+//        for(AdminUnit unit : units) {
+//            long id = unitToIdMap.get(unit);
+//            long parentid = idToParentId.get(id);
+//            if(parentid == -1) {
+//                unit.parent = null;
+//            }else{
+//                idToParentId.put(id, parentid);
+//            }
+//        }
+        // TODO: parentid2childid
         for(AdminUnit unit : units) {
-
+            long id = unitToIdMap.get(unit);
+            List<Long> childIds = parentid2childid.get(id);
+            if(parentid2childid.containsKey(id)) {
+                parentid2childid.put(id, childIds);
+            }else{
+                parentid2childid.put(id, childIds);
+            }
         }
+
     }
     /**
      * Wypisuje zawartość korzystając z AdminUnit.toString()
@@ -90,7 +114,7 @@ public class AdminUnitList {
         for(AdminUnit unit : units) {
             out.append(unit.toString());
         }
-        System.out.println(out.toString());
+        //System.out.println(out.toString());
     }
     /**
      * Wypisuje co najwyżej limit elementów począwszy od elementu o indeksie offset
@@ -102,7 +126,7 @@ public class AdminUnitList {
         for(int i = offset; i < offset + limit; i++) {
             out.append(units.get(i).toString());
         }
-        System.out.println(out);
+        //System.out.println(out);
     }
 
 
@@ -144,7 +168,7 @@ public class AdminUnitList {
         if(au.density == 0){
             au.density = au.parent.density;
         }
-        if(au.population == 0){
+        if(au.population == 0 && au.density > 0){
             au.population = au.area * au.density;
         }
     }

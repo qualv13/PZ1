@@ -6,15 +6,16 @@ import java.util.Locale;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-//        CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//admin-units.csv");
-//        while (reader.next()){
-//            int id = reader.getInt("id");
-//            int parentid = reader.getInt("parent");
-//            String name = reader.get("name");
-//            int admin_level = reader.getInt("admin_level");
-//            double population = reader.getDouble("population");
-//            System.out.printf(Locale.US, "%d %d %s %d %f \n", id, parentid, name, admin_level, population);
-//        }
+        CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//admin-units.csv");
+        while (reader.next()){
+            int id = reader.getInt("id");
+            int parentid = reader.getInt("parent");
+            String name = reader.get("name");
+            int admin_level = reader.getInt("admin_level");
+            double population = reader.getDouble("population");
+            double x = reader.getDouble("x1");
+            System.out.printf(Locale.US, "%d %d %s %d %f %f\n", id, parentid, name, admin_level, population, x);
+        }
 //
 //        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab6//elec.csv",",",true);
 //        while (reader.next()){
