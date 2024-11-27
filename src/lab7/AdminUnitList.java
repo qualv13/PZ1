@@ -39,13 +39,12 @@ public class AdminUnitList {
                 idToParentId.put(id, parentId);
             }
             // dodajesz children jako to do klucza parenta tego, bo skoro on ma parenta, to ten wczytywany jest dzieckiem
-            // TODO: poniższy kod zmienić tak, aby wykonał się po wczytaniu wszystkich elementów pliku
-//            if(!parentid2childid.containsKey(parent)) {
-//                List<Long> childids = new ArrayList<>();
-//                parentid2childid.put(parent,childids);
-//            }else{
-//                parentid2childid.get(parent).add(id);
-//            }
+            if(!parentid2childid.containsKey(parentId)) {
+                parentid2childid.put(parentId, new ArrayList<>());
+            }
+            parentid2childid.get(parentId).add(id);
+
+
 
             try{unit.name = reader.get("name");}catch (RuntimeException e){unit.name = null;}
             try{unit.adminLevel = reader.getInt("admin_level");}catch (RuntimeException e){unit.adminLevel = -1;}
