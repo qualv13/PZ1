@@ -21,7 +21,7 @@ public class AdminUnitList {
         Map<Long, AdminUnit> idToUnitMap = new HashMap<>();
         Map<AdminUnit, Long> unitToIdMap = new HashMap<>();
         Map<Long, Long> idToParentId = new HashMap<>();
-        CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//" + filename);
+        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab7//" + filename); // "C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//"
         while(reader.next()) {
             AdminUnit unit = new AdminUnit();
             long id, parentId;

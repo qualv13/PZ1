@@ -83,6 +83,19 @@ public class BoundingBox {
             this.ymin=bb.ymin;
             this.xmax=bb.xmax;
             this.ymax=bb.ymax;
+            return this;
+        }
+        if(this.xmax < bb.xmax){
+            this.xmax=bb.xmax;
+        }
+        if(this.ymax < bb.ymax){
+            this.ymax=bb.ymax;
+        }
+        if(this.xmin > bb.xmin){
+            this.xmin=bb.xmin;
+        }
+        if(this.ymin > bb.ymin){
+            this.ymin=bb.ymin;
         }
         return this;
     }
@@ -91,7 +104,10 @@ public class BoundingBox {
      * @return
      */
     boolean isEmpty(){
-        return Objects.equals(this.xmin, this.ymin) && this.ymin == this.xmax && this.xmax == this.ymax && this.ymax == Double.NaN;
+        if( ((this.xmin == this.ymin) && (this.ymin == this.xmax)) && ((this.xmax == this.ymax) && (this.ymax == Double.NaN)) ){
+            return true;
+        }
+        return false;
     }
 
     /**
