@@ -62,10 +62,7 @@ public class AdminUnitList {
             double y4 = reader.getDouble("y4");
             double x5 = reader.getDouble("x5");
             double y5 = reader.getDouble("y5");
-            unit.bbox.xmax = Math.max(Math.max(x1, x2), Math.max(Math.max(x3, x4), x5));
-            unit.bbox.ymin = Math.min(Math.min(y1, y2), Math.min(Math.min(y3, y4), y5));
-            unit.bbox.xmin = Math.min(Math.min(x1, x2), Math.min(Math.min(x3, x4), x5));
-            unit.bbox.ymax = Math.max(Math.max(y1, y2), Math.max(Math.max(y3, y4), y5));
+            unit.bbox.addPoint(x1, y1); unit.bbox.addPoint(x2, y2); unit.bbox.addPoint(x3, y3); unit.bbox.addPoint(x4, y4); unit.bbox.addPoint(x5, y5);
             units.add(unit);
 //        int id = reader.getInt("id");
 //        int parent = reader.getInt("parent");
@@ -171,5 +168,36 @@ public class AdminUnitList {
         if(au.population == 0 && au.density > 0){
             au.population = au.area * au.density;
         }
+    }
+
+    /**
+     * Zwraca listę jednostek sąsiadujących z jednostką unit na tym samym poziomie hierarchii admin_level.
+     * Czyli sąsiadami wojweództw są województwa, powiatów - powiaty, gmin - gminy, miejscowości - inne miejscowości
+     * @param unit - jednostka, której sąsiedzi mają być wyznaczeni
+     * @param maxdistance - parametr stosowany wyłącznie dla miejscowości, maksymalny promień odległości od środka unit,
+     *                    w którym mają sie znaleźć punkty środkowe BoundingBox sąsiadów
+     * @return lista wypełniona sąsiadami
+     */
+    AdminUnitList getNeighbors(AdminUnit unit, double maxdistance){
+        AdminUnitList ret = new AdminUnitList();
+        for(AdminUnit child : units) {
+            if(child.adminLevel == unit.adminLevel) {
+                if (unit.bbox.contains(child.bbox)) {
+                    ret.units.add(child);
+                }else if(unit.bbox.distanceTo(child.bbox) <= maxdistance){
+                    ret.units.add(child);
+                }
+            }
+        }
+        return ret;
+    }
+
+    AdminUnit getUnit(String nazwa){
+        for(AdminUnit unit : units) {
+            if(unit.name.equals(nazwa)) {
+                return unit;
+            }
+        }
+        return null;
     }
 }

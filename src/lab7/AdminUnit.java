@@ -24,6 +24,7 @@ public class AdminUnit {
         out += "Area: " + area + "\n";
         out += "Density: " + density + "\n";
         out += "Parent: " + parent + "\n";
+        out += bbox.toString() + "\n";
         return out;
     }
 }

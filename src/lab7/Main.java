@@ -10,6 +10,7 @@ public class Main {
         adminUnitList.read("admin-units.csv");
         PrintStream out = new PrintStream("admin-units.txt");
         AdminUnitList toPrint = adminUnitList.selectByName(".*ębło.*", true);
+        adminUnitList.getNeighbors(adminUnitList.getUnit("Kraków"), 300).list(out);
         toPrint.list(out);
 
     }
