@@ -3,10 +3,7 @@ package lab7;
 import lab6.CSVReader;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // 8 - miasta (1200); 11 - 192; od 8 poziomu administracyjnego są braki dzieci
 public class AdminUnitList {
@@ -199,4 +196,18 @@ public class AdminUnitList {
         }
         return null;
     }
+
+    /**
+     * Sortuje daną listę jednostek (in place = w miejscu)
+     * @return this
+     */
+    AdminUnitList sortInplaceByName() implements Comparator<AdminUnit>
+    {
+        @Override
+        public int compare(AdminUnit o1, AdminUnit o2)
+        {
+        return o1.getName().compareTo(o2.getName());
+        }
+    }
+
 }

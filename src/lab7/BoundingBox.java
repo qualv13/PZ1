@@ -3,10 +3,10 @@ package lab7;
 import java.util.Objects;
 
 public class BoundingBox {
-    Double xmin = Double.NaN;
-    Double ymin = Double.NaN;
-    Double xmax = Double.NaN;
-    Double ymax = Double.NaN;
+    double xmin = 0;
+    double ymin = 0;
+    double xmax = 0;
+    double ymax = 0;
 
     @Override
     public String toString() {
@@ -104,7 +104,7 @@ public class BoundingBox {
      * @return
      */
     boolean isEmpty(){
-        if( ((this.xmin == this.ymin) && (this.ymin == this.xmax)) && ((this.xmax == this.ymax) && (this.ymax == Double.NaN)) ){
+        if( ((this.xmin == this.ymin) && (this.ymin == this.xmax)) && ((this.xmax == this.ymax) && (this.ymax == 0)) ){
             return true;
         }
         return false;
