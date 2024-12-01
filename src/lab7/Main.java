@@ -19,6 +19,5 @@ public class Main {
 
         System.out.println(adminUnitList.units.get(1).bbox.contains(adminUnitList.units.get(2).bbox));
         //toPrint.list(out);
-
     }
 }

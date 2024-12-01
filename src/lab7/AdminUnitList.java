@@ -18,7 +18,7 @@ public class AdminUnitList {
         Map<Long, AdminUnit> idToUnitMap = new HashMap<>();
         Map<AdminUnit, Long> unitToIdMap = new HashMap<>();
         Map<Long, Long> idToParentId = new HashMap<>();
-        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab7//" + filename); // "C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//"
+        CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//" + filename); // "C://ProjektyStudia//PZ1//src//lab7//"
         while(reader.next()) {
             AdminUnit unit = new AdminUnit();
             long id, parentId;
@@ -201,13 +201,41 @@ public class AdminUnitList {
      * Sortuje daną listę jednostek (in place = w miejscu)
      * @return this
      */
-    AdminUnitList sortInplaceByName() implements Comparator<AdminUnit>
+    AdminUnitList sortInplaceByName()
     {
-        @Override
-        public int compare(AdminUnit o1, AdminUnit o2)
-        {
-        return o1.getName().compareTo(o2.getName());
+        class Compare implements Comparator<AdminUnit>{
+            @Override
+            public int compare(AdminUnit o1, AdminUnit o2) {
+                return o1.name.compareTo(o2.name);
+            }
         }
+        new Compare();
+        Collections.sort(units, new Compare());
+        return this;
+    }
+
+    /**
+     * Sortuje daną listę jednostek (in place = w miejscu)
+     * @return this
+     */
+    AdminUnitList sortInplaceByArea(){
+        Comparator<AdminUnit> comparator = new Comparator<AdminUnit>() {
+            @Override
+            public int compare(AdminUnit o1, AdminUnit o2) {
+                return (o1.area-o2.area>0 ? 0 : 1);
+            }
+        };
+        Collections.sort(units, comparator);
+        return this;
+    }
+
+    /**
+     * Sortuje daną listę jednostek (in place = w miejscu)
+     * @return this
+     */
+    AdminUnitList sortInplaceByPopulation(){
+        Collections.sort(units, Comparator.comparingDouble(p -> p.population));
+        return this;
     }
 
 }
