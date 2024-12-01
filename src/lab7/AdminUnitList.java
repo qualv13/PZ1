@@ -4,6 +4,7 @@ import lab6.CSVReader;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Predicate;
 
 // 8 - miasta (1200); 11 - 192; od 8 poziomu administracyjnego są braki dzieci
 public class AdminUnitList {
@@ -18,7 +19,7 @@ public class AdminUnitList {
         Map<Long, AdminUnit> idToUnitMap = new HashMap<>();
         Map<AdminUnit, Long> unitToIdMap = new HashMap<>();
         Map<Long, Long> idToParentId = new HashMap<>();
-        CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//" + filename); // "C://ProjektyStudia//PZ1//src//lab7//"
+        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab7//" + filename); //  "C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//"
         while(reader.next()) {
             AdminUnit unit = new AdminUnit();
             long id, parentId;
@@ -238,4 +239,73 @@ public class AdminUnitList {
         return this;
     }
 
+    AdminUnitList sortInplace(Comparator<AdminUnit> cmp){
+        Collections.sort(units, cmp);
+        return this;
+    }
+
+    AdminUnitList sort(Comparator<AdminUnit> cmp){
+        AdminUnitList ret = new AdminUnitList();
+        ret.units.addAll(units);
+        Collections.sort(ret.units, cmp);
+        return ret;
+    }
+
+    /**
+     *
+     * @param pred referencja do interfejsu Predicate
+     * @return nową listę, na której pozostawiono tylko te jednostki,
+     * dla których metoda test() zwraca true
+     */
+    AdminUnitList filter(Predicate<AdminUnit> pred){
+        AdminUnitList res = new AdminUnitList();
+        for(AdminUnit unit : units) {
+            if(pred.test(unit)) {
+                res.units.add(unit);
+            }
+        }
+        return res;
+    }
+
+    // ????
+//    Predicate<AdminUnit> p = new Predicate(){
+//        @Override
+//        public boolean test(Object o) {
+//            return false;
+//        }
+//
+
+    /**
+     * Zwraca co najwyżej limit elementów spełniających pred
+     * @param pred - predykat
+     * @param limit - maksymalna liczba elementów
+     * @return nową listę
+     */
+    AdminUnitList filter(Predicate<AdminUnit> pred, int limit){
+        AdminUnitList res = new AdminUnitList();
+        this.filter(pred);
+        while (res.units.size() < limit && this.units.size() <= limit) {
+            res.units.add(this.units.get(res.units.size()-1));
+        }
+        return res;
+    }
+
+    /**
+     * Zwraca co najwyżej limit elementów spełniających pred począwszy od offset
+     * Offest jest obliczany po przefiltrowaniu
+     * @param pred - predykat
+     * @param - od którego elementu
+     * @param limit - maksymalna liczba elementów
+     * @return nową listę
+     */
+    AdminUnitList filter(Predicate<AdminUnit> pred, int offset, int limit){
+        AdminUnitList res = new AdminUnitList();
+        this.filter(pred);
+        for (int i = offset; i < this.units.size(); i++) {
+            if (limit-i>0){
+                res.units.add(this.units.get(i));
+            }
+        }
+        return res;
+    }
 }
