@@ -69,7 +69,7 @@ public class BoundingBox {
      * @return
      */
     boolean intersects(BoundingBox bb){
-        return !(bb.xmax < bb.xmin || bb.ymax < bb.ymin);
+        return this.xmax>bb.xmin && bb.xmax>this.xmin && this.ymax>bb.ymin && bb.ymax>this.ymin;
     }
     /**
      * Powiększa rozmiary tak, aby zawierał bb oraz poprzednią wersję this

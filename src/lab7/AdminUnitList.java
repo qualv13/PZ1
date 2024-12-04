@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 // 8 - miasta (1200); 11 - 192; od 8 poziomu administracyjnego są braki dzieci
 public class AdminUnitList {
     List<AdminUnit> units = new ArrayList<>();
-    Map<Long,List<Long>> parentid2childid = new HashMap<>();
+    List<AdminUnit> roots = new ArrayList<>();
 
     /**
      * Czyta rekordy pliku i dodaje do listy
@@ -19,7 +19,7 @@ public class AdminUnitList {
         Map<Long, AdminUnit> idToUnitMap = new HashMap<>();
         Map<AdminUnit, Long> unitToIdMap = new HashMap<>();
         Map<Long, Long> idToParentId = new HashMap<>();
-        CSVReader reader = new CSVReader("C://ProjektyStudia//PZ1//src//lab7//" + filename); //  "C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//"
+        CSVReader reader = new CSVReader("C://Users//jakub//IdeaProjects//PZ1//lab1//src//lab7//" + filename); //   "C://ProjektyStudia//PZ1//src//lab7//"
         while(reader.next()) {
             AdminUnit unit = new AdminUnit();
             long id, parentId;
@@ -30,18 +30,6 @@ public class AdminUnitList {
 
             try{parentId = reader.getInt("parent");}catch (RuntimeException e){parentId = -1;}
             idToParentId.put(id, parentId);
-
-            if(parentId == -1) {
-                unit.parent = null;
-            }else{
-                idToParentId.put(id, parentId);
-            }
-            // dodajesz children jako to do klucza parenta tego, bo skoro on ma parenta, to ten wczytywany jest dzieckiem
-            if(!parentid2childid.containsKey(parentId)) {
-                parentid2childid.put(parentId, new ArrayList<>());
-            }
-            parentid2childid.get(parentId).add(id);
-
 
 
             try{unit.name = reader.get("name");}catch (RuntimeException e){unit.name = null;}
@@ -91,12 +79,17 @@ public class AdminUnitList {
         // TODO: parentid2childid
         for(AdminUnit unit : units) {
             long id = unitToIdMap.get(unit);
-            List<Long> childIds = parentid2childid.get(id);
-            if(parentid2childid.containsKey(id)) {
-                parentid2childid.put(id, childIds);
-            }else{
-                parentid2childid.put(id, childIds);
+            long parentId = idToParentId.get(id);
+            if(parentId != -1 && parentId != 0) {
+                unit.parent = idToUnitMap.get(parentId);
+                unit.parent.children.add(unit);
             }
+            if(unit.adminLevel == 4){
+                roots.add(unit);
+            }
+        }
+        for(AdminUnit unit : units) {
+            unit.fixMissingValues();
         }
 
     }
@@ -189,6 +182,31 @@ public class AdminUnitList {
         return ret;
     }
 
+    AdminUnitList getNeighborsLinear(AdminUnit unit, double maxdistance){
+        AdminUnitList ret = new AdminUnitList();
+        List<AdminUnit> hereRoots = roots;
+        while(!hereRoots.isEmpty() && unit.adminLevel>hereRoots.getFirst().adminLevel) {
+            AdminUnit root = hereRoots.removeFirst();
+
+            if (unit.bbox.intersects(root.bbox)) {
+                hereRoots.addAll(root.children);
+            }else if(unit.bbox.distanceTo(root.bbox) <= maxdistance){
+                hereRoots.addAll(root.children);
+            }
+
+            //hereRoots.addAll(root.children);
+        }
+
+        for(AdminUnit units : hereRoots) {
+            if (unit.bbox.intersects(units.bbox)) {
+                ret.units.addAll(units.children);
+            }else if(unit.bbox.distanceTo(units.bbox) <= maxdistance){
+                ret.units.addAll(units.children);
+            }
+        }
+        return ret;
+    }
+
     AdminUnit getUnit(String nazwa){
         for(AdminUnit unit : units) {
             if(unit.name.equals(nazwa)) {
@@ -210,8 +228,7 @@ public class AdminUnitList {
                 return o1.name.compareTo(o2.name);
             }
         }
-        new Compare();
-        Collections.sort(units, new Compare());
+        units.sort(new Compare());
         return this;
     }
 
@@ -223,10 +240,16 @@ public class AdminUnitList {
         Comparator<AdminUnit> comparator = new Comparator<AdminUnit>() {
             @Override
             public int compare(AdminUnit o1, AdminUnit o2) {
-                return (o1.area-o2.area>0 ? 0 : 1);
+                if(o1.area>o2.area) {
+                    return 1;
+                }
+                if(o1.area<o2.area) {
+                    return -1;
+                }
+                return 0;
             }
         };
-        Collections.sort(units, comparator);
+        units.sort(comparator);
         return this;
     }
 
@@ -235,19 +258,19 @@ public class AdminUnitList {
      * @return this
      */
     AdminUnitList sortInplaceByPopulation(){
-        Collections.sort(units, Comparator.comparingDouble(p -> p.population));
+        units.sort((p1, p2) -> Double.compare(p1.population, p2.population));
         return this;
     }
 
     AdminUnitList sortInplace(Comparator<AdminUnit> cmp){
-        Collections.sort(units, cmp);
+        units.sort(cmp);
         return this;
     }
 
     AdminUnitList sort(Comparator<AdminUnit> cmp){
         AdminUnitList ret = new AdminUnitList();
         ret.units.addAll(units);
-        Collections.sort(ret.units, cmp);
+        ret.units.sort(cmp);
         return ret;
     }
 
@@ -266,14 +289,6 @@ public class AdminUnitList {
         }
         return res;
     }
-
-    // ????
-//    Predicate<AdminUnit> p = new Predicate(){
-//        @Override
-//        public boolean test(Object o) {
-//            return false;
-//        }
-//
 
     /**
      * Zwraca co najwyżej limit elementów spełniających pred

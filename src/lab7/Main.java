@@ -47,7 +47,17 @@ public class Main {
                 .where(a->a.area>1000)
                 .or(a->a.name.startsWith("Sz"))
                 .sort((a,b)->Double.compare(a.area,b.area))
-                .limit(100);
+                .limit(2);
         query.execute().list(out6);
+
+        AdminUnitList list7 = new AdminUnitList();
+        list7.read("admin-units.csv");
+        PrintStream out7 = new PrintStream("admin-units7.txt");
+        AdminUnitQuery query2 = new AdminUnitQuery()
+                .selectFrom(list)
+                .where(a->a.area>1000)
+                .sort((a,b)->Double.compare(a.area,b.area))
+                .limit(2);
+        query2.execute().list(out7);
     }
 }

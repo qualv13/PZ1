@@ -8,12 +8,12 @@ import java.util.function.Predicate;
 public class AdminUnitQuery {
     AdminUnitList src;
     Predicate<AdminUnit> p = a->true;
-    Comparator<AdminUnit> cmp;
+    Comparator<AdminUnit> cmp = (a,b) -> 0;
     int limit = Integer.MAX_VALUE;
     int offset = 0;
 
     /**
-     * Ustawia listê jako przetwarzane Ÿród³o
+     * Ustawia listï¿½ jako przetwarzane ï¿½rï¿½dï¿½o
      * @param src
      * @return this
      */
@@ -33,7 +33,7 @@ public class AdminUnitQuery {
     }
 
     /**
-     * Wykonuje operacjê p = p and pred
+     * Wykonuje operacjï¿½ p = p and pred
      * @param pred
      * @return this
      */
@@ -42,7 +42,7 @@ public class AdminUnitQuery {
         return this;
     }
     /**
-     * Wykonuje operacjê p = p or pred
+     * Wykonuje operacjï¿½ p = p or pred
      * @param pred
      * @return this
      */
@@ -81,8 +81,8 @@ public class AdminUnitQuery {
     }
 
     /**
-     * Wykonuje zapytanie i zwraca wynikow¹ listê
-     * @return przefiltrowana i opcjonalnie posortowana lista (uwzglêdniamy tak¿e offset/limit)
+     * Wykonuje zapytanie i zwraca wynikowï¿½ listï¿½
+     * @return przefiltrowana i opcjonalnie posortowana lista (uwzglï¿½dniamy takï¿½e offset/limit)
      */
     AdminUnitList execute(){
         List<AdminUnit> result = new ArrayList<>();
@@ -92,11 +92,6 @@ public class AdminUnitQuery {
             if (p.test(unit)) {
                 result.add(unit);
             }
-        }
-
-        // Sort units if a comparator is set
-        if (cmp != null) {
-            result.sort(cmp);
         }
 
         // Apply offset and limit
