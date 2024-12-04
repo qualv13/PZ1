@@ -14,7 +14,7 @@ public class AdminUnitQuery {
 
     /**
      * Ustawia list� jako przetwarzane �r�d�o
-     * @param src
+     * @param src src
      * @return this
      */
     AdminUnitQuery selectFrom(AdminUnitList src){
@@ -34,7 +34,7 @@ public class AdminUnitQuery {
 
     /**
      * Wykonuje operacj� p = p and pred
-     * @param pred
+     * @param pred pred
      * @return this
      */
     AdminUnitQuery and(Predicate<AdminUnit> pred){
@@ -43,7 +43,7 @@ public class AdminUnitQuery {
     }
     /**
      * Wykonuje operacj� p = p or pred
-     * @param pred
+     * @param pred pred
      * @return this
      */
     AdminUnitQuery or(Predicate<AdminUnit> pred){
@@ -53,7 +53,7 @@ public class AdminUnitQuery {
 
     /**
      * Ustawia komparator cmp
-     * @param cmp
+     * @param cmp porownywator
      * @return this
      */
     AdminUnitQuery sort(Comparator<AdminUnit> cmp){
@@ -63,7 +63,7 @@ public class AdminUnitQuery {
 
     /**
      * Ustawia limit
-     * @param limit
+     * @param limit limiter
      * @return this
      */
     AdminUnitQuery limit(int limit){
@@ -72,7 +72,7 @@ public class AdminUnitQuery {
     }
     /**
      * Ustawia offset
-     * @param offset
+     * @param offset offseter
      * @return this
      */
     AdminUnitQuery offset(int offset){
