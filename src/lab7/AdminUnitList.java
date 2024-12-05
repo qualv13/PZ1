@@ -26,11 +26,10 @@ public class AdminUnitList {
             try{id = reader.getInt("id");}catch (RuntimeException e){id = -1;}
 
             idToUnitMap.put(id, unit);
-            unitToIdMap.put(unit, id);// ma być
+            unitToIdMap.put(unit, id);
 
             try{parentId = reader.getInt("parent");}catch (RuntimeException e){parentId = -1;}
             idToParentId.put(id, parentId);
-
 
             try{unit.name = reader.get("name");}catch (RuntimeException e){unit.name = null;}
             try{unit.adminLevel = reader.getInt("admin_level");}catch (RuntimeException e){unit.adminLevel = -1;}
@@ -49,34 +48,8 @@ public class AdminUnitList {
             double y5 = reader.getDouble("y5");
             unit.bbox.addPoint(x1, y1); unit.bbox.addPoint(x2, y2); unit.bbox.addPoint(x3, y3); unit.bbox.addPoint(x4, y4); unit.bbox.addPoint(x5, y5);
             units.add(unit);
-//        int id = reader.getInt("id");
-//        int parent = reader.getInt("parent");
-//        String name = reader.get("name");
-//        int admin_level = reader.getInt("admin_level");
-//        double population = reader.getDouble("population");
-//        double area = reader.getDouble("area");
-//        double density = reader.getDouble("density");
-//        double x1 = reader.getDouble("x1");
-//        double y1 = reader.getDouble("y1");
-//        double x2 = reader.getDouble("x2");
-//        double y2 = reader.getDouble("y2");
-//        double x3 = reader.getDouble("x3");
-//        double y3 = reader.getDouble("y3");
-//        double x4 = reader.getDouble("x4");
-//        double y4 = reader.getDouble("y4");
-//        double x5 = reader.getDouble("x5");
-//        double y5 = reader.getDouble("y5");
         }
-//        for(AdminUnit unit : units) {
-//            long id = unitToIdMap.get(unit);
-//            long parentid = idToParentId.get(id);
-//            if(parentid == -1) {
-//                unit.parent = null;
-//            }else{
-//                idToParentId.put(id, parentid);
-//            }
-//        }
-        // TODO: parentid2childid
+
         for(AdminUnit unit : units) {
             long id = unitToIdMap.get(unit);
             long parentId = idToParentId.get(id);
@@ -101,7 +74,6 @@ public class AdminUnitList {
         for(AdminUnit unit : units) {
             out.append(unit.toString());
         }
-        //System.out.println(out.toString());
     }
     /**
      * Wypisuje co najwyżej limit elementów począwszy od elementu o indeksie offset
@@ -113,7 +85,6 @@ public class AdminUnitList {
         for(int i = offset; i < offset + limit; i++) {
             out.append(units.get(i).toString());
         }
-        //System.out.println(out);
     }
 
 
@@ -132,8 +103,6 @@ public class AdminUnitList {
                 ret.units.add(unit);
             }
         }
-        // przeiteruj po zawartości units
-        // jeżeli nazwa jednostki pasuje do wzorca dodaj do ret
         return ret;
     }
 
@@ -172,7 +141,7 @@ public class AdminUnitList {
         AdminUnitList ret = new AdminUnitList();
         for(AdminUnit child : units) {
             if(child.adminLevel == unit.adminLevel) {
-                if (unit.bbox.contains(child.bbox)) {
+                if (unit.bbox.intersects(child.bbox)) {
                     ret.units.add(child);
                 }else if(unit.bbox.distanceTo(child.bbox) <= maxdistance){
                     ret.units.add(child);
@@ -193,8 +162,6 @@ public class AdminUnitList {
             }else if(unit.bbox.distanceTo(root.bbox) <= maxdistance){
                 hereRoots.addAll(root.children);
             }
-
-            //hereRoots.addAll(root.children);
         }
 
         for(AdminUnit units : hereRoots) {
