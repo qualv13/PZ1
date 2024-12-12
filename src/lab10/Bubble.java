@@ -13,6 +13,8 @@ public class Bubble implements XmasShape {
 
     @Override
     public void render(Graphics2D g2d) {
+        GradientPaint grad = new GradientPaint(0,0,fillColor,0,150, lineColor);
+        g2d.setPaint(grad);
         // ustaw kolor wypełnienia
         g2d.fillOval(0,0,100,100);
         // ustaw kolor obramowania

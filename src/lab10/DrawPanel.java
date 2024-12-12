@@ -18,8 +18,10 @@ public class DrawPanel extends JPanel {
 //        shapes.add(new Branch(335, 230, 1.25,1,1));
 //        shapes.add(new Branch(360, 210, 1,1,1));
 //        shapes.add(new Branch(385, 160, 1, 0.75, 1.25));
-        shapes.add(new Tree(20, -20, 1));
-//        shapes.add(new Bucket(10,400));
+        shapes.add(new Background());
+        shapes.add(new Tree(20, -50, 1));
+        setBackground(new Color(22, 36, 115));
+//        shapes.add(new Bucket(250,400));
 //        shapes.add(new Bucket(400,10));
 //        shapes.add(new Bucket(400,400));
     }
