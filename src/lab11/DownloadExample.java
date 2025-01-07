@@ -1,9 +1,6 @@
 package lab11;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.Locale;
 
@@ -33,11 +30,15 @@ public class DownloadExample {
         }
 
         public void run(){
-            String fileName = //nazwa pliku - wyodrêbnij z z url
+            String fileName = url.substring(41);  //nazwa pliku - wyodrêbnij z z url
 
             try(InputStream in = new URL(url).openStream(); FileOutputStream out = new FileOutputStream(fileName) ){
+                //BufferedReader reader = new BufferedReader((new FileReader(filename));
+                System.out.println("Downloading " + fileName);
+                String tmp;
                 for(;;){
-
+                    //reader = new BufferedReader(new FileReader(filename));
+                    //tmp = reader.readLine();
                     // czytaj znak z in
                     // jeœli <0 break
                     //zapisz znak do out
@@ -61,7 +62,7 @@ public class DownloadExample {
         static void concurrentDownload(){
             double t1 = System.nanoTime()/1e6;
             for(String url:toDownload){
-
+                new Downloader(url);
                 // uruchom Downloader jako w¹tek... czyli wywo³aj start()
             }
             double t2 = System.nanoTime()/1e6;
