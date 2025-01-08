@@ -23,11 +23,12 @@ public class Bucket implements XmasShape {
 //            b.lineColor=new Color(37, 18, 209);
 //            shapes.add(b);
 //        }
+        double rangeMin=0.08; double rangeMax=0.4;
         for(int i=0;i<num;i++){
             Bubble b = new Bubble();
             b.x=r.nextInt((int) (yscale-xscale));
             b.y=r.nextInt(60);
-            b.scale=r.nextDouble()*0.2;
+            b.scale = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
             b.fillColor=new Color(r.nextFloat(),r.nextFloat(),r.nextFloat());
             b.lineColor=new Color(r.nextFloat(),r.nextFloat(),r.nextFloat());
             shapes.add(b);

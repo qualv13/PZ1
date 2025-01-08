@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class DownloadExample {
 
-    // lista plików do pobrania
+    // lista plikï¿½w do pobrania
     static String [] toDownload = {
             "https://home.agh.edu.pl/~pszwed/wyklad-c/01-jezyk-c-intro.pdf",
             "https://home.agh.edu.pl/~pszwed/wyklad-c/02-jezyk-c-podstawy-skladni.pdf",
@@ -30,7 +30,7 @@ public class DownloadExample {
         }
 
         public void run(){
-            String fileName = url.substring(41);  //nazwa pliku - wyodrêbnij z z url
+            String fileName = url.substring(41);  //nazwa pliku - wyodrï¿½bnij z z url
 
             try(InputStream in = new URL(url).openStream(); FileOutputStream out = new FileOutputStream(fileName) ){
                 //BufferedReader reader = new BufferedReader((new FileReader(filename));
@@ -40,7 +40,7 @@ public class DownloadExample {
                     //reader = new BufferedReader(new FileReader(filename));
                     //tmp = reader.readLine();
                     // czytaj znak z in
-                    // jeœli <0 break
+                    // jeï¿½li <0 break
                     //zapisz znak do out
                 }
             } catch (FileNotFoundException e) {
@@ -62,8 +62,8 @@ public class DownloadExample {
         static void concurrentDownload(){
             double t1 = System.nanoTime()/1e6;
             for(String url:toDownload){
-                new Downloader(url);
-                // uruchom Downloader jako w¹tek... czyli wywo³aj start()
+                new Thread(new Downloader(url)).start();
+                // uruchom Downloader jako wï¿½tek... czyli wywoï¿½aj start()
             }
             double t2 = System.nanoTime()/1e6;
             System.out.printf(Locale.US,"t2-t1=%f\n",t2-t1);

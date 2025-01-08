@@ -21,7 +21,7 @@ public class Tree implements XmasShape{
             }
         }
         for(int i = 0; i<6; i++){
-            shapes.add(new Bucket(180 + (i-1)*40,480 - (i-1)*50,1 ,1,600 - (i*80), 20-i*2));
+            shapes.add(new Bucket(180 + (i-1)*50,480 - (i-1)*50,1 ,1,600 - (i*90), 10-i));
         }
         shapes.add(new Star(23, 13, 9));
 //        shapes.add(new Branch(160, 340, 3,1,1));
