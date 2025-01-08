@@ -54,7 +54,7 @@ public class AsyncMean {
         int n=10;
 
         BlockingQueue<Double> queue = new ArrayBlockingQueue<>(n);
-
+        double t1 = System.nanoTime()/1e6;
         for (int i = 0; i < n; i++) {
             CompletableFuture.supplyAsync(
                     new MeanCalcSupplier(i*(size/n),i*(size/n)+size/n-1), executor)
@@ -68,7 +68,8 @@ public class AsyncMean {
         }
         mean /= n;
 
-        System.out.printf(Locale.US,"mean=%f\n", mean);
+        double t2 = System.nanoTime()/1e6;
+        System.out.printf(Locale.US,"mean=%f, t2-t1=%f\n", mean, t2-t1);
 
         executor.shutdown();
     }
