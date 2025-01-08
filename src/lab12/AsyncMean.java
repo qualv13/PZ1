@@ -28,6 +28,7 @@ public class AsyncMean {
         ExecutorService executor = Executors.newFixedThreadPool(16);
         int n=16;
         // Utwórz listę future
+        double t1 = System.nanoTime()/1e6;
         List<CompletableFuture<Double>> partialResults = new ArrayList<>();
         for(int i=0;i<n;i++){
             CompletableFuture<Double> partialMean = CompletableFuture.supplyAsync(
@@ -42,7 +43,8 @@ public class AsyncMean {
             // join() zawiesza wątek wołający
         }
         mean /= partialResults.size();
-        System.out.printf(Locale.US,"mean=%f\n",mean);
+        double t2 = System.nanoTime()/1e6;
+        System.out.printf(Locale.US,"mean=%f, t2-t1=%f\n", mean, t2-t1);
 
         executor.shutdown();
     }
