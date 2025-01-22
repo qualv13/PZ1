@@ -17,8 +17,6 @@ public class Zombie implements Sprite {
     int WIDTH = 2000;// z rysunku;
     int frameHeight = 0;
     int frameWidth = 0;
-    int windowHeight = 700;
-    int windowWidth = 1000;
 
     Zombie(int x, int y, double scale) throws IOException {
         this.x = x;

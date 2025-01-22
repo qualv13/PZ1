@@ -40,8 +40,9 @@ public class DrawPanel  extends JPanel implements CrossHairListener{
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-        crossHair.draw(g2d);;
-        g2d.drawString("You've hit: " + hitZombies + " Zombies and let escape " + escapedZombies,70,20);
+        crossHair.draw(g2d);
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+        g2d.drawString("You've hit: " + hitZombies + " Zombies and let escape " + escapedZombies,50,45);
         synchronized (sprites) {
             for(Sprite sprite : sprites){
                 sprite.draw(g2d, this);
