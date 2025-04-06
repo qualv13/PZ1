@@ -1,75 +1,46 @@
-# JUnit Testing in Java - PZ1 Course Project
+# 🧪 PZ1 – Java Unit Testing Project
 
-## Overview
-This repository demonstrates my implementation of JUnit testing during the PZ1 (Programming Fundamentals 1) course. It showcases test-driven development practices and unit testing in Java.
+This repository contains solutions and JUnit 5 tests created as part of the *Programming Fundamentals* course.
 
-## Project Structure
-/src
-/main/java - Main Java source code
-/test/java - JUnit test cases
-/lib - JUnit and other library dependencies
+## 📦 Contents
 
-## Key Features
-- Comprehensive unit tests for all core functionality
-- Test-driven development approach
-- Parameterized tests for multiple input scenarios
-- Exception handling tests
+- ✅ Java code in `src/main/java`
+- 🧪 JUnit tests in `src/test/java`
+- 🌐 A simple HTML CV page with styling (`cv.html`, `style.css`)
+- 📄 `output.json` with sample data
 
-## Example Test Case
+## ▶️ How to Run Tests
+
+In **IntelliJ IDEA**:
+1. Open the project.
+2. Navigate to `src/test/java`.
+3. Right-click the folder or any test class and select **"Run Tests"**.
+
+## 🧪 Example Test
+
+Here's a sample JUnit test from the `MorseTest` class:
+
 ```java
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-class StringUtilsTest {
-    
-    @Test
-    void testReverseString() {
-        StringUtils utils = new StringUtils();
-        assertEquals("cba", utils.reverse("abc"));
-        assertEquals("", utils.reverse(""));
-    }
-    
-    @Test
-    void testNullInput() {
-        StringUtils utils = new StringUtils();
-        assertThrows(IllegalArgumentException.class, 
-            () -> utils.reverse(null));
-    }
+@Test
+void morseTest() {
+    Morse m = new Morse();
+    String input = "Hello World!";
+    String expected = ".... . .-.. .-.. --- / .-- --- .-. .-.. -.-.--";
+    assertEquals(expected, m.morse(input));
 }
 ```
 
-Testing Methodology
-Test First: Wrote tests before implementation
+## 🛠 Technologies Used
 
-Complete Coverage: Aimed for 100% method coverage
+- Java 11+
+- JUnit 5
+- IntelliJ IDEA (recommended)
 
-Edge Cases: Tested boundary conditions
+## 👤 Author
 
-Readable Tests: Used descriptive test names
+Jakub Kierznowski  
+🔗 [GitHub Repo](https://github.com/qualv13/PZ1)
 
-Dependencies:
-JUnit 5
-Java 11+
+---
 
-How to Run
-In IDE:
-Right-click test directory
-
-Select "Run Tests"
-
-Command Line:
-```bash
-javac -cp junit-platform-console-standalone.jar src/test/java/*.java
-java -jar junit-platform-console-standalone.jar --class-path src/test/java --scan-class-path
-```
-Best Practices Applied
-Single responsibility per test method
-
-Clear assertion messages
-
-Proper test isolation
-
-Meaningful test names
-
-Author
-Jakub Kierznowski - PZ1 Course Submission
+💡 *Simple tests make solid code.*
